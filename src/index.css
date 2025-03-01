@@ -23,6 +23,9 @@ body {
   padding: 0;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+
 @layer components {
   .btn-primary {
     @apply bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-md transition-colors;
