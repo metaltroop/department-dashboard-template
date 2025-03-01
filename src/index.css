@@ -1,0 +1,74 @@
+/* src/index.css */
+
+@import "tailwindcss";
+
+:root {
+  --primary: #0ea5e9;
+  --primary-light: #7dd3fc;
+  --primary-dark: #0284c7;
+  --background: #f0f9ff;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #1e293b;
+  --border: #e2e8f0;
+  --input: #f1f5f9;
+  --ring: #0ea5e9;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  margin: 0;
+  padding: 0;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-md transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-100 text-sky-600 border border-sky-500 px-4 py-2 rounded-md transition-colors;
+  }
+  
+  .btn-danger {
+    @apply bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6;
+  }
+  
+  .input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500;
+  }
+  
+  .table-container {
+    @apply overflow-x-auto rounded-lg border border-gray-200;
+  }
+  
+  .table {
+    @apply min-w-full divide-y divide-gray-200;
+  }
+  
+  .table-header {
+    @apply bg-gray-50;
+  }
+  
+  .table-header-cell {
+    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+  }
+  
+  .table-body {
+    @apply bg-white divide-y divide-gray-200;
+  }
+  
+  .table-row {
+    @apply hover:bg-gray-50;
+  }
+  
+  .table-cell {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-500;
+  }
+}
