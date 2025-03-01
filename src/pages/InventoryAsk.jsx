@@ -158,43 +158,47 @@ const InventoryAsk = () => {
               </select>
             </div>
             <div className="relative">
+              <label htmlFor="search" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Search
+              </label>
               <input
+                id="search"
                 type="text"
                 placeholder="Search resources..."
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+              <Search className="absolute left-3 top-9 text-gray-400" size={18} />
             </div>
           </div>
-          <Button className="mt-4">Find Resources</Button>
+          <Button className="w-full sm:w-auto mt-4">Find Resources</Button>
         </div>
 
         <div className="mt-8">
           <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-4">Available Resources</h3>
 
           {filteredItems.length > 0 ? (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto -mx-4 sm:mx-0">
               <table className="min-w-full">
                 <thead>
                   <tr className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                       Item ID
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                       Name
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                    <th className="hidden sm:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                       Category
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                    <th className="hidden md:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                       Department
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                       Available
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                    <th className="px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                       Actions
                     </th>
                   </tr>
@@ -202,18 +206,25 @@ const InventoryAsk = () => {
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredItems.map((item) => (
                     <tr key={item.itemId} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{item.itemId}</td>
-                      <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-300">{item.itemName}</td>
-                      <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-300">{item.itemCategory}</td>
-                      <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-300">{item.deptID}</td>
-                      <td className="px-6 py-4 text-sm text-gray-900 dark:text-white font-medium">
+                      <td className="px-4 sm:px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
+                        {item.itemId}
+                      </td>
+                      <td className="px-4 sm:px-6 py-4 text-sm text-gray-500 dark:text-gray-300">{item.itemName}</td>
+                      <td className="hidden sm:table-cell px-4 sm:px-6 py-4 text-sm text-gray-500 dark:text-gray-300">
+                        {item.itemCategory}
+                      </td>
+                      <td className="hidden md:table-cell px-4 sm:px-6 py-4 text-sm text-gray-500 dark:text-gray-300">
+                        {item.deptID}
+                      </td>
+                      <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 dark:text-white font-medium">
                         {item.availableItems}
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 sm:px-6 py-4">
                         <div className="flex justify-end">
                           <Button size="sm" onClick={(event) => handleAskHelp(item, event)}>
                             <HelpCircle className="h-4 w-4 mr-1" />
-                            Ask Help
+                            <span className="hidden sm:inline">Ask Help</span>
+                            <span className="sm:hidden">Ask</span>
                           </Button>
                         </div>
                       </td>

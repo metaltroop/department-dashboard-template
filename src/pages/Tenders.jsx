@@ -3,20 +3,7 @@
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { 
-  Search, 
-  Plus, 
-  Info, 
-  Trash2, 
-  Download, 
-  Upload, 
-  Filter, 
-  RefreshCcw,
-  FileText,
-  Clock,
-  MapPin,
-  BarChart3
-} from "lucide-react"
+import { Search, Plus, Info, Trash2, Filter, RefreshCcw, FileText, Clock, MapPin, BarChart3 } from "lucide-react"
 import Button from "../components/Button"
 import Modal from "../components/Modal"
 
@@ -111,11 +98,11 @@ const Tenders = () => {
         tender.tenderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
         tender.tenderCategory.toLowerCase().includes(searchQuery.toLowerCase()) ||
         tender.zone.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        tender.pincode.includes(searchQuery)
+        tender.pincode.includes(searchQuery),
     )
     .sort((a, b) => {
       const factor = sortOrder === "asc" ? 1 : -1
-      
+
       if (sortBy === "tenderId") {
         return a.tenderId.localeCompare(b.tenderId) * factor
       } else if (sortBy === "tenderCategory") {
@@ -125,7 +112,7 @@ const Tenders = () => {
       } else if (sortBy === "zone") {
         return a.zone.localeCompare(b.zone) * factor
       }
-      
+
       return 0
     })
 
@@ -152,9 +139,9 @@ const Tenders = () => {
     const buttonRect = event.currentTarget.getBoundingClientRect()
     const originPosition = {
       x: buttonRect.left + buttonRect.width / 2,
-      y: buttonRect.top + buttonRect.height / 2
+      y: buttonRect.top + buttonRect.height / 2,
     }
-    
+
     setSelectedTender(tender)
     setIsModalOpen(true)
     setOriginPosition(originPosition)
@@ -174,72 +161,62 @@ const Tenders = () => {
   const totalAmount = tenders.reduce((sum, tender) => sum + tender.amount, 0)
 
   // Count tenders by status
-  const activeTenders = tenders.filter(tender => 
-    tender.status.workInProgress || tender.status.accepted
-  ).length
+  const activeTenders = tenders.filter((tender) => tender.status.workInProgress || tender.status.accepted).length
 
   return (
     <div className="max-w-auto mx-auto p-6">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-2xl font-bold mb-2 flex items-center">
+          <h1 className="text-2xl font-bold mb-2 flex items-center text-gray-800 dark:text-white">
             <FileText className="mr-2 h-6 w-6 text-blue-500" />
             Tender Management
           </h1>
-          <p className="text-gray-600">Manage municipal tenders and projects</p>
+          <p className="text-gray-600 dark:text-gray-400">Manage municipal tenders and projects</p>
         </div>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
-            <Download className="h-4 w-4" />
-            Export
-          </button>
-          <button className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
-            <Upload className="h-4 w-4" />
-            Import
-          </button>
-          <button onClick={() => navigate("/tenders/create")} className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-            <Plus className="h-4 w-4" />
+          <Button onClick={() => navigate("/tenders/create")}>
+            <Plus className="h-4 w-4 mr-2" />
             Add Tender
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Tender Stats */}
       <div className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg shadow p-4 flex flex-col">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col">
           <div className="flex items-center justify-between">
-            <div className="text-gray-600 text-sm font-medium">Total Tenders</div>
+            <div className="text-gray-600 text-sm font-medium dark:text-gray-300">Total Tenders</div>
             <FileText className="h-5 w-5 text-blue-500" />
           </div>
           <div className="text-2xl font-bold text-blue-600 mt-2">{tenders.length}</div>
-          <div className="text-xs text-gray-500 mt-1">Current fiscal year</div>
+          <div className="text-xs text-gray-500 mt-1 dark:text-gray-400">Current fiscal year</div>
         </div>
-        
-        <div className="bg-white rounded-lg shadow p-4 flex flex-col">
+
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col">
           <div className="flex items-center justify-between">
-            <div className="text-gray-600 text-sm font-medium">Active Tenders</div>
+            <div className="text-gray-600 text-sm font-medium dark:text-gray-300">Active Tenders</div>
             <Clock className="h-5 w-5 text-indigo-500" />
           </div>
           <div className="text-2xl font-bold text-indigo-600 mt-2">{activeTenders}</div>
-          <div className="text-xs text-gray-500 mt-1">In progress or accepted</div>
+          <div className="text-xs text-gray-500 mt-1 dark:text-gray-400">In progress or accepted</div>
         </div>
-        
-        <div className="bg-white rounded-lg shadow p-4 flex flex-col">
+
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col">
           <div className="flex items-center justify-between">
-            <div className="text-gray-600 text-sm font-medium">Zones Covered</div>
+            <div className="text-gray-600 text-sm font-medium dark:text-gray-300">Zones Covered</div>
             <MapPin className="h-5 w-5 text-green-500" />
           </div>
           <div className="text-2xl font-bold text-green-600 mt-2">3</div>
-          <div className="text-xs text-gray-500 mt-1">Municipal zones</div>
+          <div className="text-xs text-gray-500 mt-1 dark:text-gray-400">Municipal zones</div>
         </div>
-        
-        <div className="bg-white rounded-lg shadow p-4 flex flex-col">
+
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col">
           <div className="flex items-center justify-between">
-            <div className="text-gray-600 text-sm font-medium">Total Budget</div>
+            <div className="text-gray-600 text-sm font-medium dark:text-gray-300">Total Budget</div>
             <BarChart3 className="h-5 w-5 text-amber-500" />
           </div>
           <div className="text-2xl font-bold text-amber-600 mt-2">₹{(totalAmount / 1000000).toFixed(1)}M</div>
-          <div className="text-xs text-gray-500 mt-1">Allocated funding</div>
+          <div className="text-xs text-gray-500 mt-1 dark:text-gray-400">Allocated funding</div>
         </div>
       </div>
 
@@ -250,9 +227,9 @@ const Tenders = () => {
             <button
               onClick={() => setViewMode("table")}
               className={`px-4 py-2 rounded-lg transition-colors ${
-                viewMode === "table" 
-                  ? "bg-blue-500 text-white" 
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                viewMode === "table"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
               }`}
             >
               Table View
@@ -260,15 +237,15 @@ const Tenders = () => {
             <button
               onClick={() => setViewMode("card")}
               className={`px-4 py-2 rounded-lg transition-colors ${
-                viewMode === "card" 
-                  ? "bg-blue-500 text-white" 
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                viewMode === "card"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
               }`}
             >
               Card View
             </button>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative">
               <input
@@ -281,18 +258,18 @@ const Tenders = () => {
               <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
             </div>
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setFilterOpen(!filterOpen)}
                 className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
               >
                 <Filter className="h-4 w-4" />
                 Sort & Filter
               </button>
-              
+
               {filterOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-10 p-4">
                   <h3 className="font-medium mb-3">Sort Tenders</h3>
-                  
+
                   <div className="mb-3">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
                     <select
@@ -306,7 +283,7 @@ const Tenders = () => {
                       <option value="zone">Zone</option>
                     </select>
                   </div>
-                  
+
                   <div className="mb-3">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Order</label>
                     <select
@@ -318,12 +295,12 @@ const Tenders = () => {
                       <option value="desc">Descending</option>
                     </select>
                   </div>
-                  
+
                   <div className="flex justify-end mt-4">
-                    <button 
+                    <button
                       onClick={() => {
-                        setSortBy("tenderId");
-                        setSortOrder("asc");
+                        setSortBy("tenderId")
+                        setSortOrder("asc")
                       }}
                       className="text-sm text-blue-500 hover:text-blue-700"
                     >
@@ -335,32 +312,32 @@ const Tenders = () => {
             </div>
           </div>
         </div>
-        
+
         {viewMode === "table" ? (
           <div className="overflow-x-auto">
             <table className="min-w-full">
               <thead>
-                <tr className="bg-gray-50 border-b">
-                  <th 
+                <tr className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
+                  <th
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer hover:text-blue-500"
                     onClick={() => handleSort("tenderId")}
                   >
                     Tender ID {sortBy === "tenderId" && (sortOrder === "asc" ? "↑" : "↓")}
                   </th>
-                  <th 
+                  <th
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer hover:text-blue-500"
                     onClick={() => handleSort("tenderCategory")}
                   >
                     Category {sortBy === "tenderCategory" && (sortOrder === "asc" ? "↑" : "↓")}
                   </th>
-                  <th 
+                  <th
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer hover:text-blue-500"
                     onClick={() => handleSort("amount")}
                   >
                     Amount {sortBy === "amount" && (sortOrder === "asc" ? "↑" : "↓")}
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                  <th 
+                  <th
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer hover:text-blue-500"
                     onClick={() => handleSort("zone")}
                   >
@@ -374,7 +351,7 @@ const Tenders = () => {
                 {filteredTenders.map((tender) => (
                   <tr key={tender.tenderId} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900">{tender.tenderId}</div>
+                      <div className="font-medium text-gray-900 dark:text-white">{tender.tenderId}</div>
                       <div className="text-xs text-gray-500">Created {tender.createdAt}</div>
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-500">{tender.tenderCategory}</td>
@@ -388,15 +365,13 @@ const Tenders = () => {
                     <td className="px-6 py-4 text-sm text-gray-500">{tender.pincode}</td>
                     <td className="px-6 py-4">
                       <div className="flex justify-end gap-2">
-                        <button 
-                          onClick={(event) => handleViewDetails(tender, event)} 
+                        <button
+                          onClick={(event) => handleViewDetails(tender, event)}
                           className="p-1 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded-full transition-colors"
                         >
                           <Info className="h-4 w-4" />
                         </button>
-                        <button 
-                          className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors"
-                        >
+                        <button className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors">
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
@@ -409,7 +384,10 @@ const Tenders = () => {
         ) : (
           <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredTenders.map((tender) => (
-              <div key={tender.tenderId} className="bg-white border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+              <div
+                key={tender.tenderId}
+                className="bg-white border rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+              >
                 <div className="p-4 border-b bg-gray-50">
                   <div className="flex justify-between items-start">
                     <div>
@@ -425,27 +403,25 @@ const Tenders = () => {
                       >
                         <Info className="h-4 w-4" />
                       </button>
-                      <button 
-                        className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors"
-                      >
+                      <button className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors">
                         <Trash2 className="h-4 w-4" />
                       </button>
                     </div>
                   </div>
                 </div>
                 <div className="p-4">
-                  <div className="text-sm mb-4 text-gray-600 line-clamp-2">
-                    {tender.tenderDescription}
-                  </div>
-                  
+                  <div className="text-sm mb-4 text-gray-600 line-clamp-2">{tender.tenderDescription}</div>
+
                   <div className="grid grid-cols-3 gap-2 text-center mb-3">
                     <div className="bg-gray-50 rounded p-2">
                       <div className="text-xs text-gray-500">Amount</div>
-                      <div className="font-medium text-blue-600">₹{(tender.amount/100000).toFixed(1)}L</div>
+                      <div className="font-medium text-blue-600">₹{(tender.amount / 100000).toFixed(1)}L</div>
                     </div>
                     <div className="bg-gray-50 rounded p-2">
                       <div className="text-xs text-gray-500">Status</div>
-                      <div className={`font-medium ${getStatusColor(tender.status).includes('blue') ? 'text-blue-600' : getStatusColor(tender.status).includes('green') ? 'text-green-600' : getStatusColor(tender.status).includes('purple') ? 'text-purple-600' : getStatusColor(tender.status).includes('yellow') ? 'text-yellow-600' : 'text-sky-600'}`}>
+                      <div
+                        className={`font-medium ${getStatusColor(tender.status).includes("blue") ? "text-blue-600" : getStatusColor(tender.status).includes("green") ? "text-green-600" : getStatusColor(tender.status).includes("purple") ? "text-purple-600" : getStatusColor(tender.status).includes("yellow") ? "text-yellow-600" : "text-sky-600"}`}
+                      >
                         {getStatusText(tender.status)}
                       </div>
                     </div>
@@ -454,9 +430,11 @@ const Tenders = () => {
                       <div className="font-medium text-amber-600">{tender.duration}</div>
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-between items-center text-xs text-gray-500 mt-2">
-                    <div>{tender.zone}, {tender.city}</div>
+                    <div>
+                      {tender.zone}, {tender.city}
+                    </div>
                     <div>Created {tender.createdAt}</div>
                   </div>
                 </div>
@@ -464,7 +442,7 @@ const Tenders = () => {
             ))}
           </div>
         )}
-        
+
         {filteredTenders.length === 0 && (
           <div className="p-8 text-center">
             <div className="text-gray-400 mb-2">
@@ -474,7 +452,7 @@ const Tenders = () => {
             <p className="text-gray-500">Try adjusting your search criteria</p>
           </div>
         )}
-        
+
         <div className="p-4 border-t flex justify-between items-center text-sm text-gray-600">
           <div>
             Showing {filteredTenders.length} of {tenders.length} tenders
@@ -483,17 +461,18 @@ const Tenders = () => {
             <button disabled className="px-3 py-1 rounded border bg-gray-50 text-gray-400 cursor-not-allowed">
               Previous
             </button>
-            <button className="px-3 py-1 rounded border bg-blue-50 text-blue-600">
-              1
-            </button>
-            <button className="px-3 py-1 rounded border hover:bg-gray-50">
-              Next
-            </button>
+            <button className="px-3 py-1 rounded border bg-blue-50 text-blue-600">1</button>
+            <button className="px-3 py-1 rounded border hover:bg-gray-50">Next</button>
           </div>
         </div>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Tender Details" originPosition={originPosition}>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Tender Details"
+        originPosition={originPosition}
+      >
         {selectedTender && (
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -579,3 +558,4 @@ const Tenders = () => {
 }
 
 export default Tenders
+

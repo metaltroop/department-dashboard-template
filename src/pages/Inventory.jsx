@@ -3,7 +3,20 @@
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Search, Plus, Share2, Trash2, RefreshCcw, Package, BarChart3, Clock, Users, FileText, LayoutGrid, List,} from "lucide-react"
+import {
+  Search,
+  Plus,
+  Share2,
+  Trash2,
+  RefreshCcw,
+  Package,
+  BarChart3,
+  Clock,
+  Users,
+  FileText,
+  LayoutGrid,
+  List,
+} from "lucide-react"
 import Button from "../components/Button"
 import Modal from "../components/Modal"
 
@@ -186,7 +199,7 @@ const Inventory = () => {
 
   return (
     <div className="max-w-auto mx-auto p-6">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
         <div>
           <h1 className="text-2xl font-bold mb-2 flex items-center">
             <Package className="mr-2 h-6 w-6 text-blue-500" />
@@ -194,13 +207,13 @@ const Inventory = () => {
           </h1>
           <p className="text-gray-600 dark:text-gray-400">Manage department resources and equipment</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <button
             onClick={() => navigate("/inventory/requests")}
             className="flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
           >
             <FileText className="h-4 w-4" />
-            Requests{" "}
+            <span className="hidden sm:inline">Requests</span>{" "}
             {pendingRequests > 0 && (
               <span className="bg-red-500 text-white text-xs rounded-full px-1.5">{pendingRequests}</span>
             )}
@@ -210,14 +223,16 @@ const Inventory = () => {
             className="flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
           >
             <Users className="h-4 w-4" />
-            Ask Resource
+            <span className="hidden sm:inline">Ask Resource</span>
+            <span className="sm:hidden">Ask</span>
           </button>
           <button
             onClick={() => setIsCreateModalOpen(true)}
             className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
           >
             <Plus className="h-4 w-4" />
-            Add Resource
+            <span className="hidden sm:inline">Add Resource</span>
+            <span className="sm:hidden">Add</span>
           </button>
         </div>
       </div>
@@ -263,11 +278,11 @@ const Inventory = () => {
 
       {/* Search and filters */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow mb-6">
-        <div className="p-4 border-b dark:border-gray-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex gap-2">
+        <div className="p-4 border-b dark:border-gray-700 flex flex-col gap-4">
+          <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setFilterType("all")}
-              className={`px-4 py-2 rounded-lg transition-colors ${
+              className={`px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base ${
                 filterType === "all"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
@@ -277,7 +292,7 @@ const Inventory = () => {
             </button>
             <button
               onClick={() => setFilterType("shared")}
-              className={`px-4 py-2 rounded-lg transition-colors ${
+              className={`px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base ${
                 filterType === "shared"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
@@ -287,7 +302,7 @@ const Inventory = () => {
             </button>
             <button
               onClick={() => setFilterType("full")}
-              className={`px-4 py-2 rounded-lg transition-colors ${
+              className={`px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base ${
                 filterType === "full"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
@@ -298,11 +313,11 @@ const Inventory = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
-            <div className="relative">
+            <div className="relative flex-1">
               <input
                 type="text"
                 placeholder="Search inventory..."
-                className="w-full sm:w-64 pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -311,15 +326,15 @@ const Inventory = () => {
             <div className="flex border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden">
               <button
                 onClick={() => setViewMode("table")}
-                className={`p-2 ${viewMode === "table" ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" : "bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300"}`}
+                className={`p-2 flex-1 ${viewMode === "table" ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" : "bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300"}`}
               >
-                <List  size={20} />
+                <List size={20} className="mx-auto" />
               </button>
               <button
                 onClick={() => setViewMode("card")}
-                className={`p-2 ${viewMode === "card" ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" : "bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300"}`}
+                className={`p-2 flex-1 ${viewMode === "card" ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" : "bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300"}`}
               >
-                <LayoutGrid size={20} />
+                <LayoutGrid size={20} className="mx-auto" />
               </button>
             </div>
           </div>

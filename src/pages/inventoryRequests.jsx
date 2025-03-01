@@ -113,11 +113,11 @@ const InventoryRequests = () => {
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow mb-6">
-        <div className="p-4 border-b dark:border-gray-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex gap-2">
+        <div className="p-4 border-b dark:border-gray-700 flex flex-col gap-4">
+          <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setStatusFilter("all")}
-              className={`px-4 py-2 rounded-lg transition-colors ${
+              className={`px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm ${
                 statusFilter === "all"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
@@ -127,7 +127,7 @@ const InventoryRequests = () => {
             </button>
             <button
               onClick={() => setStatusFilter("pending")}
-              className={`px-4 py-2 rounded-lg transition-colors ${
+              className={`px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm ${
                 statusFilter === "pending"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
@@ -137,7 +137,7 @@ const InventoryRequests = () => {
             </button>
             <button
               onClick={() => setStatusFilter("accepted")}
-              className={`px-4 py-2 rounded-lg transition-colors ${
+              className={`px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm ${
                 statusFilter === "accepted"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
@@ -147,7 +147,7 @@ const InventoryRequests = () => {
             </button>
             <button
               onClick={() => setStatusFilter("rejected")}
-              className={`px-4 py-2 rounded-lg transition-colors ${
+              className={`px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm ${
                 statusFilter === "rejected"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
@@ -157,46 +157,48 @@ const InventoryRequests = () => {
             </button>
           </div>
 
-          <div className="flex border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden">
-            <button
-              onClick={() => setViewMode("table")}
-              className={`p-2 ${viewMode === "table" ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" : "bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300"}`}
-            >
-              <Filter size={20} />
-            </button>
-            <button
-              onClick={() => setViewMode("card")}
-              className={`p-2 ${viewMode === "card" ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" : "bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300"}`}
-            >
-              <Package size={20} />
-            </button>
+          <div className="flex justify-center sm:justify-end">
+            <div className="flex border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden">
+              <button
+                onClick={() => setViewMode("table")}
+                className={`p-2 flex-1 ${viewMode === "table" ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" : "bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300"}`}
+              >
+                <Filter size={20} className="mx-auto" />
+              </button>
+              <button
+                onClick={() => setViewMode("card")}
+                className={`p-2 flex-1 ${viewMode === "card" ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" : "bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300"}`}
+              >
+                <Package size={20} className="mx-auto" />
+              </button>
+            </div>
           </div>
         </div>
 
         {viewMode === "table" ? (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto -mx-4 sm:mx-0">
             <table className="min-w-full">
               <thead>
                 <tr className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                     Request ID
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                     Item
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="hidden md:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                     From Department
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                     Quantity
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="hidden sm:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="hidden lg:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                     Date
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                     Actions
                   </th>
                 </tr>
@@ -204,33 +206,39 @@ const InventoryRequests = () => {
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {filteredRequests.map((request) => (
                   <tr key={request.requestId} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{request.requestId}</td>
-                    <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-300">
+                    <td className="px-4 sm:px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
+                      {request.requestId}
+                    </td>
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-500 dark:text-gray-300">
                       <div>{request.itemName}</div>
                       <div className="text-xs text-gray-400 dark:text-gray-500">{request.itemId}</div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-300">
+                    <td className="hidden md:table-cell px-4 sm:px-6 py-4 text-sm text-gray-500 dark:text-gray-300">
                       <div>{request.fromDeptName}</div>
                       <div className="text-xs text-gray-400 dark:text-gray-500">{request.fromDept}</div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-900 dark:text-white font-medium">{request.quantity}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 dark:text-white font-medium">
+                      {request.quantity}
+                    </td>
+                    <td className="hidden sm:table-cell px-4 sm:px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 py-1 text-xs rounded-md ${getStatusBadgeClass(request.requestStatus)}`}>
                         {request.requestStatus.charAt(0).toUpperCase() + request.requestStatus.slice(1)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-300">{request.requestDate}</td>
-                    <td className="px-6 py-4">
-                      <div className="flex justify-end gap-2">
+                    <td className="hidden lg:table-cell px-4 sm:px-6 py-4 text-sm text-gray-500 dark:text-gray-300">
+                      {request.requestDate}
+                    </td>
+                    <td className="px-4 sm:px-6 py-4">
+                      <div className="flex flex-col sm:flex-row justify-end gap-2">
                         {request.requestStatus === "pending" && (
                           <>
                             <Button size="sm" onClick={() => handleAcceptRequest(request.requestId)}>
-                              <Check className="h-4 w-4 mr-1" />
-                              Accept
+                              <Check className="h-4 w-4 sm:mr-1" />
+                              <span className="hidden sm:inline">Accept</span>
                             </Button>
                             <Button size="sm" variant="danger" onClick={() => handleRejectRequest(request.requestId)}>
-                              <X className="h-4 w-4 mr-1" />
-                              Reject
+                              <X className="h-4 w-4 sm:mr-1" />
+                              <span className="hidden sm:inline">Reject</span>
                             </Button>
                           </>
                         )}

@@ -78,7 +78,7 @@ const ClashDetails = () => {
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-2xl font-bold text-gray-800">Clash {id}</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Clash {id}</h1>
         <span
           className={`ml-4 px-2 py-1 text-xs rounded-full ${clash.isResolved ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}
         >
@@ -88,19 +88,35 @@ const ClashDetails = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">Chat</h2>
-            <div className="space-y-4 mb-4 max-h-96 overflow-y-auto">
-              {clash.messages.map((message) => {
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+              <span className="relative">
+                Chat
+                <span className="absolute top-0 right-0 transform translate-x-2 -translate-y-1 w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              </span>
+            </h2>
+            <div className="space-y-4 mb-4 max-h-96 overflow-y-auto p-2 bg-gray-50 dark:bg-gray-900/30 rounded-lg">
+              {clash.messages.map((message, index) => {
                 const isCurrentDept = message.sender === "D01" // Assuming current user is from D01
                 return (
-                  <div key={message.id} className={`flex ${isCurrentDept ? "justify-end" : "justify-start"}`}>
+                  <div
+                    key={message.id}
+                    className={`flex ${isCurrentDept ? "justify-end" : "justify-start"} animate-fadeIn`}
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    {!isCurrentDept && (
+                      <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs font-medium mr-2 flex-shrink-0">
+                        {message.sender}
+                      </div>
+                    )}
                     <div
-                      className={`max-w-[80%] rounded-lg px-4 py-2 ${
-                        isCurrentDept ? "bg-sky-500 text-white" : "bg-gray-100 text-gray-800"
+                      className={`max-w-[80%] rounded-lg px-4 py-3 shadow-sm ${
+                        isCurrentDept
+                          ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white"
+                          : "bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-100 dark:border-gray-600"
                       }`}
                     >
-                      <div className="flex items-center mb-1">
+                      <div className="flex items-center justify-between mb-1">
                         <span className="font-medium text-sm">
                           {clash.departmentNames[message.sender] || message.sender}
                         </span>
@@ -108,21 +124,26 @@ const ClashDetails = () => {
                           {new Date(message.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                         </span>
                       </div>
-                      <p>{message.text}</p>
+                      <p className="leading-relaxed">{message.text}</p>
                     </div>
+                    {isCurrentDept && (
+                      <div className="w-8 h-8 rounded-full bg-sky-500 flex items-center justify-center text-xs font-medium text-white ml-2 flex-shrink-0">
+                        {message.sender}
+                      </div>
+                    )}
                   </div>
                 )
               })}
             </div>
-            <form onSubmit={handleSendMessage} className="flex gap-2">
+            <form onSubmit={handleSendMessage} className="flex gap-2 mt-4">
               <input
                 type="text"
                 placeholder="Type your message..."
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-gray-700 dark:text-white"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
               />
-              <Button type="submit">
+              <Button type="submit" className="px-5">
                 <Send size={18} className="mr-2" />
                 Send
               </Button>
@@ -131,36 +152,52 @@ const ClashDetails = () => {
         </div>
 
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">Proposed Roadmap</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 overflow-hidden">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Proposed Roadmap</h2>
             <div className="space-y-4">
-              {Object.keys(clash.proposedRoadmap).map((deptId) => (
-                <div key={deptId} className="p-3 border border-gray-200 rounded-md">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-medium">{clash.departmentNames[deptId]}</span>
-                    <span className="text-sm text-sky-600">{clash.proposedRoadmap[deptId]}</span>
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    <div className="flex justify-between">
-                      <span>Start:</span>
-                      <span>{clash.proposedStartDate[deptId]}</span>
+              {Object.keys(clash.proposedRoadmap).map((deptId, index) => (
+                <div
+                  key={deptId}
+                  className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 hover:border-sky-300 dark:hover:border-sky-600"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center">
+                      <div className="w-2 h-10 rounded-full bg-gradient-to-b from-sky-400 to-blue-600 mr-3"></div>
+                      <span className="font-medium text-gray-800 dark:text-white">{clash.departmentNames[deptId]}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span>End:</span>
-                      <span>{clash.proposedEndDate[deptId]}</span>
+                    <span className="px-3 py-1 text-sm bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400 rounded-full font-medium">
+                      {clash.proposedRoadmap[deptId]}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 mt-3 text-sm">
+                    <div className="bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Start Date</div>
+                      <div className="font-medium text-gray-800 dark:text-gray-200">
+                        {clash.proposedStartDate[deptId]}
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 dark:bg-gray-700/50 p-2 rounded-md">
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">End Date</div>
+                      <div className="font-medium text-gray-800 dark:text-gray-200">
+                        {clash.proposedEndDate[deptId]}
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
             {!clash.isResolved && (
-              <Button className="w-full mt-4" onClick={() => setIsConfirmModalOpen(true)}>
+              <Button
+                className="w-full mt-6 transition-all duration-300 transform hover:scale-105"
+                onClick={() => setIsConfirmModalOpen(true)}
+              >
                 Accept Roadmap
               </Button>
             )}
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Departments Involved</h2>
             <div className="space-y-2">
               {Object.keys(clash.involvedDepartments).map((deptId) => (

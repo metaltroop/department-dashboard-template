@@ -2,21 +2,64 @@
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Search, Plus, Edit, Trash2, UsersIcon, Shield, Clock, BarChart3 ,LayoutGrid, List, } from 'lucide-react'
+import { Search, Plus, Edit, Trash2, UsersIcon, Shield, Clock, BarChart3, LayoutGrid, List } from "lucide-react"
 import Button from "../components/Button"
+import Modal from "../components/Modal"
 
 const Users = () => {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState("")
   const [viewMode, setViewMode] = useState("table") // 'table', 'card'
+  const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] = useState(false)
+  const [selectedUser, setSelectedUser] = useState(null)
 
   // This would come from an API in a real application
   const users = [
-    { id: 1, username: "johndoe", email: "john.doe@example.com", role: "Admin", department: "IT", lastActive: "2024-03-15", status: "active" },
-    { id: 2, username: "janedoe", email: "jane.doe@example.com", role: "Manager", department: "Roads", lastActive: "2024-03-14", status: "active" },
-    { id: 3, username: "bobsmith", email: "bob.smith@example.com", role: "User", department: "Electricity", lastActive: "2024-03-10", status: "inactive" },
-    { id: 4, username: "alicejones", email: "alice.jones@example.com", role: "Manager", department: "Water", lastActive: "2024-03-13", status: "active" },
-    { id: 5, username: "mikebrown", email: "mike.brown@example.com", role: "User", department: "Sewage", lastActive: "2024-03-12", status: "pending" },
+    {
+      id: 1,
+      username: "johndoe",
+      email: "john.doe@example.com",
+      role: "Admin",
+      department: "IT",
+      lastActive: "2024-03-15",
+      status: "active",
+    },
+    {
+      id: 2,
+      username: "janedoe",
+      email: "jane.doe@example.com",
+      role: "Manager",
+      department: "Roads",
+      lastActive: "2024-03-14",
+      status: "active",
+    },
+    {
+      id: 3,
+      username: "bobsmith",
+      email: "bob.smith@example.com",
+      role: "User",
+      department: "Electricity",
+      lastActive: "2024-03-10",
+      status: "inactive",
+    },
+    {
+      id: 4,
+      username: "alicejones",
+      email: "alice.jones@example.com",
+      role: "Manager",
+      department: "Water",
+      lastActive: "2024-03-13",
+      status: "active",
+    },
+    {
+      id: 5,
+      username: "mikebrown",
+      email: "mike.brown@example.com",
+      role: "User",
+      department: "Sewage",
+      lastActive: "2024-03-12",
+      status: "pending",
+    },
   ]
 
   const filteredUsers = users.filter(
@@ -29,9 +72,20 @@ const Users = () => {
 
   // Calculate stats
   const totalUsers = users.length
-  const activeUsers = users.filter(user => user.status === "active").length
-  const pendingUsers = users.filter(user => user.status === "pending").length
-  const adminUsers = users.filter(user => user.role === "Admin").length
+  const activeUsers = users.filter((user) => user.status === "active").length
+  const pendingUsers = users.filter((user) => user.status === "pending").length
+  const adminUsers = users.filter((user) => user.role === "Admin").length
+
+  const handleResetPassword = (user) => {
+    setSelectedUser(user)
+    setIsResetPasswordModalOpen(true)
+  }
+
+  const confirmResetPassword = () => {
+    // In a real app, you would call an API to reset the password
+    console.log(`Resetting password for user: ${selectedUser.username}`)
+    setIsResetPasswordModalOpen(false)
+  }
 
   return (
     <div className="max-w-auto mx-auto p-6">
@@ -61,7 +115,7 @@ const Users = () => {
           <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-2">{totalUsers}</div>
           <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">Registered accounts</div>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col">
           <div className="flex items-center justify-between">
             <div className="text-gray-600 dark:text-gray-400 text-sm font-medium">Active Users</div>
@@ -70,7 +124,7 @@ const Users = () => {
           <div className="text-2xl font-bold text-green-600 dark:text-green-400 mt-2">{activeUsers}</div>
           <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">Currently active</div>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col">
           <div className="flex items-center justify-between">
             <div className="text-gray-600 dark:text-gray-400 text-sm font-medium">Pending</div>
@@ -79,7 +133,7 @@ const Users = () => {
           <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mt-2">{pendingUsers}</div>
           <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">Awaiting approval</div>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col">
           <div className="flex items-center justify-between">
             <div className="text-gray-600 dark:text-gray-400 text-sm font-medium">Admins</div>
@@ -164,8 +218,8 @@ const Users = () => {
                           user.status === "active"
                             ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
                             : user.status === "pending"
-                            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
-                            : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+                              ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
+                              : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
                         }`}
                       >
                         {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
@@ -173,6 +227,9 @@ const Users = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex justify-end space-x-2">
+                        <Button variant="secondary" size="sm" onClick={() => handleResetPassword(user)}>
+                          Reset Password
+                        </Button>
                         <button className="text-sky-600 hover:text-sky-900 dark:text-sky-400 dark:hover:text-sky-300">
                           <Edit size={18} />
                         </button>
@@ -204,8 +261,8 @@ const Users = () => {
                         user.status === "active"
                           ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
                           : user.status === "pending"
-                          ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
-                          : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+                            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
+                            : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
                       }`}
                     >
                       {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
@@ -223,12 +280,13 @@ const Users = () => {
                       <p className="font-medium text-gray-900 dark:text-white">{user.department}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
-                      Last active: {user.lastActive}
-                    </span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">Last active: {user.lastActive}</span>
                     <div className="flex gap-2">
+                      <Button variant="secondary" size="sm" onClick={() => handleResetPassword(user)}>
+                        Reset
+                      </Button>
                       <button className="p-1 text-sky-600 hover:text-sky-900 dark:text-sky-400 dark:hover:text-sky-300">
                         <Edit size={18} />
                       </button>
@@ -263,6 +321,33 @@ const Users = () => {
           </div>
         </div>
       </div>
+      {/* Reset Password Modal */}
+      <Modal
+        isOpen={isResetPasswordModalOpen}
+        onClose={() => setIsResetPasswordModalOpen(false)}
+        title="Reset Password"
+      >
+        {selectedUser && (
+          <div className="space-y-4">
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+              <p className="text-yellow-800 dark:text-yellow-400">
+                Are you sure you want to reset the password for{" "}
+                <span className="font-bold">{selectedUser.username}</span>?
+              </p>
+              <p className="text-sm text-yellow-700 dark:text-yellow-500 mt-2">
+                A temporary password will be generated and sent to their email address.
+              </p>
+            </div>
+
+            <div className="flex justify-end space-x-3 pt-4">
+              <Button variant="secondary" onClick={() => setIsResetPasswordModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={confirmResetPassword}>Reset Password</Button>
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   )
 }

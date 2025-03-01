@@ -1,8 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Plus, Edit, Trash2, Settings, Shield, Lock , LayoutGrid, List} from "lucide-react"
-import Button from "../components/Button"
+import { Search, Settings, Shield, Lock, LayoutGrid, List } from "lucide-react"
 
 const Features = () => {
   const [searchQuery, setSearchQuery] = useState("")
@@ -73,10 +72,6 @@ const Features = () => {
           </h1>
           <p className="text-gray-600 dark:text-gray-400">Configure system features and access</p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Add Feature
-        </Button>
       </div>
 
       {/* Feature Stats */}
@@ -154,9 +149,6 @@ const Features = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Roles
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Actions
-                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -182,16 +174,6 @@ const Features = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900 dark:text-white">{feature.roles}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <div className="flex justify-end space-x-2">
-                        <button className="text-sky-600 hover:text-sky-900 dark:text-sky-400 dark:hover:text-sky-300">
-                          <Edit size={18} />
-                        </button>
-                        <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                          <Trash2 size={18} />
-                        </button>
-                      </div>
                     </td>
                   </tr>
                 ))}
@@ -227,19 +209,9 @@ const Features = () => {
                 <div className="p-4">
                   <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">{feature.description}</p>
 
-                  <div className="flex justify-between items-center">
-                    <div className="text-sm">
-                      <span className="text-gray-500 dark:text-gray-400">Roles: </span>
-                      <span className="font-medium text-gray-900 dark:text-white">{feature.roles}</span>
-                    </div>
-                    <div className="flex gap-2">
-                      <button className="p-1 text-sky-600 hover:text-sky-900 dark:text-sky-400 dark:hover:text-sky-300">
-                        <Edit size={18} />
-                      </button>
-                      <button className="p-1 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
+                  <div className="text-sm">
+                    <span className="text-gray-500 dark:text-gray-400">Roles: </span>
+                    <span className="font-medium text-gray-900 dark:text-white">{feature.roles}</span>
                   </div>
                 </div>
               </div>
